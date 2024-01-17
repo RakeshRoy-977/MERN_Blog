@@ -1,6 +1,6 @@
 const express = require("express");
 const { body } = require("express-validator");
-const { signup } = require("../controllers/Auth");
+const { signup, login } = require("../controllers/Auth");
 const route = express.Router();
 
 route.post(
@@ -11,6 +11,12 @@ route.post(
     body("password").isLength({ min: 6 }),
   ],
   signup
+);
+
+route.post(
+  "/login",
+  [body("email").isEmail(), body("password").exists()],
+  login
 );
 
 module.exports = route;
