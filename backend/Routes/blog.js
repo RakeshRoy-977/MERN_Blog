@@ -6,6 +6,7 @@ const {
   create,
   update,
   remove,
+  getbyUserId,
 } = require("../controllers/blog");
 
 const route = express.Router();
@@ -23,14 +24,17 @@ route.post(
     body(`title`).isLength({ min: 3 }),
     body(`description`).isLength({ min: 10 }),
     body(`img`).exists(),
+    body(`user`).exists(),
   ],
   create
 );
 
 //update blog with id
-route.put("/update/:id", update);
+route.patch("/update/:id", update);
 
 //delete blog with id
 route.delete("/delete/:id", remove);
+
+route.get("/user/:id", getbyUserId);
 
 module.exports = route;

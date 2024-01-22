@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-const User_schema = require("../Models/singup");
+const User_schema = require("../Models/Auth");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -25,6 +25,7 @@ const signup = async (req, res) => {
       name,
       email,
       password: hashPass,
+      blogs: [],
     });
 
     res.json({ newUserData });
@@ -55,7 +56,7 @@ const login = async (req, res) => {
       return res.status(401).json({ message: "please check your credentials" });
     }
 
-    res.json({ name: "HARE KRISHNA" });
+    res.json(userChecking);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }

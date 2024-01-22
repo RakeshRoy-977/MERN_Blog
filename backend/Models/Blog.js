@@ -16,12 +16,17 @@ const BlogSchema = new Schema(
       type: String,
       required: true,
     },
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const Blog_schema = mongoose.model("Blogs", BlogSchema);
+const Blog_schema = mongoose.model("Blog", BlogSchema);
 
 module.exports = Blog_schema;
