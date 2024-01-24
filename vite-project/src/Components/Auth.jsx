@@ -1,7 +1,12 @@
 import React from "react";
 import { useState } from "react";
-
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { authActions } from "../Store/Index";
+import { useNavigate } from "react-router-dom";
 const Auth = () => {
+  const dispatch = useDispatch();
+  const nav = useNavigate();
   const [Signup, setSignup] = useState(false);
   const [formData, setformData] = useState({
     name: "",
@@ -11,9 +16,32 @@ const Auth = () => {
   const handleChange = (e) => {
     setformData({ ...formData, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+
+    if (Signup) {
+      const res = await axios.post(
+        "http://localhost:3003/api/signup",
+        formData
+      );
+      await dispatch(authActions.login());
+      await nav("/auth");
+
+      console.log(res.data);
+    } else {
+      const res = await axios.post("http://localhost:3003/api/login", {
+        email: formData.email,
+        password: formData.password,
+      });
+      await dispatch(authActions.login());
+      await nav("/blogs");
+      console.log(res.data);
+    }
+    setformData({
+      name: "",
+      email: "",
+      password: "",
+    });
   };
   return (
     <>

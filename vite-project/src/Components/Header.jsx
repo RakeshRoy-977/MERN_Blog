@@ -1,7 +1,9 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { authActions } from "../Store/Index";
 const Header = () => {
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   return (
     <div className="flex justify-between items-center w-[70vw] m-auto h-12 ">
@@ -35,9 +37,12 @@ const Header = () => {
         )}
 
         {isLoggedIn && (
-          <p className="font-bold">
-            <Link to={"/Singup"}>Log Out</Link>
-          </p>
+          <button
+            onClick={() => dispatch(authActions.logout())}
+            className="font-bold"
+          >
+            <Link to={"/auth"}>Log Out</Link>
+          </button>
         )}
       </div>
     </div>
